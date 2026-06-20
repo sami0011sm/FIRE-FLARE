@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Fire & Flare Cafe | Jaunpur</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Montserrat:wght@300;400;600;700&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box;}
+  :root{--fire:#e83a14;--flare:#ff8c00;--gold:#f5c842;--dark:#0f0a05;--charcoal:#1a1208;--smoke:#2c2015;--cream:#fdf4e3;--text:#f0e6d3;}
+  html{scroll-behavior:smooth;}
+  body{font-family:'Montserrat',sans-serif;background:var(--dark);color:var(--text);overflow-x:hidden;}
+  ::-webkit-scrollbar{width:6px;}
+  ::-webkit-scrollbar-track{background:var(--dark);}
+  ::-webkit-scrollbar-thumb{background:var(--fire);border-radius:3px;}
+
+  /* NAV */
+  nav{position:fixed;top:0;width:100%;z-index:1000;padding:16px 50px;display:flex;justify-content:space-between;align-items:center;transition:background 0.4s;}
+  nav.scrolled{background:rgba(15,10,5,0.97);backdrop-filter:blur(10px);box-shadow:0 2px 30px rgba(232,58,20,0.2);}
+  .nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:700;background:linear-gradient(135deg,var(--fire),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+  .nav-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+  .nav-links a{color:var(--text);text-decoration:none;margin-left:24px;font-size:0.82rem;letter-spacing:2px;text-transform:uppercase;opacity:0.8;transition:opacity 0.2s;}
+  .nav-links a:hover{opacity:1;color:var(--flare);}
+  .nav-cta{background:linear-gradient(135deg,var(--fire),var(--flare));color:#fff;padding:9px 22px;border-radius:50px;font-size:0.78rem;font-weight:700;letter-spacing:1px;text-decoration:none;transition:transform 0.2s,box-shadow 0.2s;white-space:nowrap;}
+  .nav-cta:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(232,58,20,0.5);}
+
+  /* OPEN/CLOSED BADGE */
+  #status-badge{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:30px;font-size:0.72rem;font-weight:700;letter-spacing:1px;white-space:nowrap;}
+  #status-badge.open{background:rgba(0,200,80,0.15);border:1px solid rgba(0,200,80,0.4);color:#00c850;}
+  #status-badge.closed{background:rgba(232,58,20,0.15);border:1px solid rgba(232,58,20,0.4);color:var(--fire);}
+
+  /* HERO */
+  .hero{position:relative;height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden;}
+  .hero-bg{position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=1800&auto=format&fit=crop');background-size:cover;background-position:center;}
+  .hero-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,10,5,0.5) 0%,rgba(15,10,5,0.7) 50%,rgba(15,10,5,0.95) 100%);}
+  .hero-content{position:relative;z-index:2;padding:20px;}
+  .hero-label{display:inline-block;border:1px solid var(--flare);color:var(--flare);font-size:0.7rem;letter-spacing:4px;text-transform:uppercase;padding:7px 20px;border-radius:30px;margin-bottom:24px;}
+  .hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(3.5rem,10vw,8rem);font-weight:700;line-height:0.95;margin-bottom:20px;}
+  .hero h1 .fire{background:linear-gradient(135deg,var(--fire),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+  .hero h1 .amp{color:rgba(255,255,255,0.3);font-size:0.6em;}
+  .hero-sub{font-size:1rem;color:rgba(240,230,210,0.7);letter-spacing:3px;text-transform:uppercase;margin-bottom:40px;}
+  .hero-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
+  .btn-fire{background:linear-gradient(135deg,var(--fire),var(--flare));color:#fff;padding:14px 34px;border-radius:50px;font-size:0.83rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;border:none;cursor:pointer;transition:all 0.3s;box-shadow:0 4px 20px rgba(232,58,20,0.4);}
+  .btn-fire:hover{transform:translateY(-3px);box-shadow:0 8px 30px rgba(232,58,20,0.6);}
+  .btn-ghost{background:transparent;color:#fff;padding:14px 34px;border-radius:50px;font-size:0.83rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;border:1px solid rgba(255,255,255,0.4);cursor:pointer;transition:all 0.3s;}
+  .btn-ghost:hover{border-color:#fff;background:rgba(255,255,255,0.08);}
+
+  /* VIBE STRIP */
+  .vibe-strip{background:linear-gradient(135deg,var(--fire),var(--flare),var(--gold));padding:16px;overflow:hidden;}
+  .vibe-text{font-size:0.72rem;letter-spacing:5px;text-transform:uppercase;color:#fff;font-weight:700;white-space:nowrap;animation:marquee 22s linear infinite;}
+  @keyframes marquee{from{transform:translateX(100vw);}to{transform:translateX(-150%)}}
+
+  /* SECTION HELPERS */
+  section{padding:90px 20px;}
+  .sec-head{text-align:center;margin-bottom:56px;}
+  .sec-head .tag{font-size:0.7rem;letter-spacing:4px;text-transform:uppercase;color:var(--flare);display:block;margin-bottom:12px;}
+  .sec-head h2{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,5vw,3.5rem);}
+  .sec-head p{color:rgba(240,230,210,0.5);margin-top:10px;font-size:0.9rem;}
+  .divider-fire{width:60px;height:3px;background:linear-gradient(135deg,var(--fire),var(--gold));border-radius:2px;margin:14px auto 0;}
+
+  /* ── MENU ── */
+  .menu-section{background:var(--dark);}
+  .menu-cats{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:48px;}
+  .mcat{padding:8px 22px;border-radius:50px;font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;border:1px solid rgba(255,255,255,0.15);color:rgba(240,230,210,0.55);cursor:pointer;transition:all 0.3s;background:transparent;}
+  .mcat.active,.mcat:hover{background:linear-gradient(135deg,var(--fire),var(--flare));border-color:transparent;color:#fff;}
+  .menu-body{max-width:1100px;margin:0 auto;}
+  .menu-group{display:none;animation:fadeIn 0.4s ease;}
+  .menu-group.active{display:block;}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+  .menu-group-title{font-family:'Cormorant Garamond',serif;font-size:1.6rem;color:var(--flare);margin-bottom:24px;padding-bottom:12px;border-bottom:1px solid rgba(255,140,0,0.2);display:flex;align-items:center;gap:10px;}
+  .menu-items{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;margin-bottom:40px;}
+  .mi{background:var(--smoke);border-radius:14px;padding:18px 20px;display:flex;justify-content:space-between;align-items:flex-start;border:1px solid rgba(255,255,255,0.05);transition:border-color 0.3s,transform 0.2s;}
+  .mi:hover{border-color:rgba(232,58,20,0.25);transform:translateY(-2px);}
+  .mi-left{flex:1;padding-right:12px;}
+  .mi-name{font-weight:600;font-size:0.95rem;margin-bottom:4px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+  .mi-desc{font-size:0.78rem;color:rgba(240,230,210,0.45);line-height:1.5;}
+  .mi-price{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:700;color:var(--gold);white-space:nowrap;flex-shrink:0;}
+  .badge-tag{font-size:0.6rem;padding:2px 8px;border-radius:20px;font-weight:700;letter-spacing:0.5px;white-space:nowrap;}
+  .tag-veg{background:rgba(0,180,80,0.15);color:#00c850;border:1px solid rgba(0,180,80,0.3);}
+  .tag-chef{background:rgba(232,58,20,0.15);color:var(--fire);border:1px solid rgba(232,58,20,0.3);}
+  .tag-vegan{background:rgba(100,200,100,0.12);color:#6fce6f;border:1px solid rgba(100,200,100,0.3);}
+  .tag-popular{background:rgba(245,200,66,0.12);color:var(--gold);border:1px solid rgba(245,200,66,0.3);}
+  .tag-spicy{background:rgba(255,50,0,0.12);color:#ff5a1f;border:1px solid rgba(255,50,0,0.3);}
+
+  /* ── RESERVATION ── */
+  .reservation{background:var(--charcoal);}
+  .res-inner{max-width:700px;margin:0 auto;}
+  .res-form{background:var(--smoke);border-radius:24px;padding:44px 40px;border:1px solid rgba(255,255,255,0.06);}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px;}
+  .form-group{display:flex;flex-direction:column;gap:7px;}
+  .form-group label{font-size:0.72rem;letter-spacing:2px;text-transform:uppercase;color:var(--flare);}
+  .form-group input,.form-group select{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:13px 16px;color:var(--text);font-family:'Montserrat',sans-serif;font-size:0.88rem;outline:none;transition:border-color 0.3s;}
+  .form-group input:focus,.form-group select:focus{border-color:var(--flare);}
+  .form-group select option{background:var(--smoke);color:var(--text);}
+  .form-group input::placeholder{color:rgba(240,230,210,0.3);}
+  .form-full{grid-column:span 2;}
+  .res-submit{width:100%;padding:16px;border-radius:50px;background:linear-gradient(135deg,var(--fire),var(--flare));color:#fff;font-family:'Montserrat',sans-serif;font-size:0.88rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;border:none;cursor:pointer;margin-top:8px;transition:all 0.3s;box-shadow:0 4px 20px rgba(232,58,20,0.3);}
+  .res-submit:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(232,58,20,0.5);}
+  #res-success{display:none;text-align:center;padding:20px;color:#00c850;font-size:0.95rem;font-weight:600;}
+
+  /* ── GALLERY ── */
+  .gallery{padding:90px 20px;background:var(--smoke);}
+  .gallery-mosaic{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;max-width:1100px;margin:0 auto;}
+  .gal-item{overflow:hidden;border-radius:14px;cursor:pointer;}
+  .gal-item img{width:100%;height:220px;object-fit:cover;display:block;transition:transform 0.5s;}
+  .gal-item:hover img{transform:scale(1.07);}
+  .gal-item.big{grid-column:span 2;grid-row:span 2;}
+  .gal-item.big img{height:100%;min-height:452px;}
+
+  /* ── ABOUT ── */
+  .about{padding:90px 20px;background:var(--charcoal);}
+  .about-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
+  .about-imgs{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .about-imgs img{width:100%;border-radius:16px;object-fit:cover;}
+  .about-imgs img:first-child{grid-column:span 2;height:260px;}
+  .about-imgs img:nth-child(2),.about-imgs img:last-child{height:170px;}
+  .about-text .tag2{font-size:0.7rem;letter-spacing:4px;text-transform:uppercase;color:var(--flare);display:block;margin-bottom:14px;}
+  .about-text h2{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3rem);line-height:1.2;margin-bottom:18px;}
+  .about-text h2 em{font-style:italic;color:var(--flare);}
+  .about-text p{color:rgba(240,230,210,0.6);line-height:1.9;font-size:0.92rem;margin-bottom:14px;}
+  .about-stats{display:flex;gap:28px;margin-top:24px;padding-top:24px;border-top:1px solid rgba(255,255,255,0.08);}
+  .stat .num{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:700;background:linear-gradient(135deg,var(--fire),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+  .stat .lbl{font-size:0.68rem;letter-spacing:2px;text-transform:uppercase;color:rgba(240,230,210,0.45);}
+
+  /* ── CONTACT & MAP ── */
+  .contact{padding:90px 20px;background:var(--dark);}
+  .contact-inner{max-width:1000px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:start;}
+  .contact-info .tag2{font-size:0.7rem;letter-spacing:4px;text-transform:uppercase;color:var(--flare);display:block;margin-bottom:14px;}
+  .contact-info h2{font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,3vw,2.6rem);margin-bottom:28px;}
+  .info-item{display:flex;gap:14px;align-items:flex-start;margin-bottom:22px;}
+  .info-icon{width:46px;height:46px;border-radius:12px;background:rgba(232,58,20,0.1);border:1px solid rgba(232,58,20,0.2);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;}
+  .info-item h4{font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;color:var(--flare);margin-bottom:3px;}
+  .info-item p,.info-item a{color:rgba(240,230,210,0.6);font-size:0.88rem;line-height:1.6;text-decoration:none;}
+
+  /* MAP CONTAINER */
+  .map-container{border-radius:20px;overflow:hidden;border:1px solid rgba(255,140,0,0.2);background:rgba(255,140,0,0.04);min-height:360px;display:flex;flex-direction:column;}
+  /* ═══════════════════════════════════════════════════
+     👇 PASTE YOUR GOOGLE MAPS EMBED CODE BELOW
+     Replace the placeholder div with your <iframe> tag
+     from Google Maps > Share > Embed a map
+  ══════════════════════════════════════════════════════ */
+  .map-placeholder{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;text-align:center;gap:12px;min-height:360px;}
+  .map-placeholder .map-icon{font-size:3rem;}
+  .map-placeholder h4{font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:var(--flare);}
+  .map-placeholder p{font-size:0.8rem;color:rgba(240,230,210,0.4);max-width:220px;line-height:1.6;}
+  .map-placeholder code{font-size:0.7rem;background:rgba(255,255,255,0.06);padding:6px 14px;border-radius:8px;color:rgba(240,230,210,0.35);display:block;margin-top:6px;}
+
+  /* ── QUICK ACTION BUTTONS (MOBILE) ── */
+  .quick-actions{display:none;position:fixed;bottom:0;left:0;right:0;z-index:999;padding:12px 16px;background:linear-gradient(to top,rgba(15,10,5,0.98),rgba(15,10,5,0.6));backdrop-filter:blur(8px);gap:10px;}
+  .qa-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:13px 10px;border-radius:12px;font-family:'Montserrat',sans-serif;font-size:0.82rem;font-weight:700;text-decoration:none;border:none;cursor:pointer;transition:all 0.3s;}
+  .qa-call{background:linear-gradient(135deg,var(--fire),var(--flare));color:#fff;}
+  .qa-wa{background:linear-gradient(135deg,#25d366,#128c7e);color:#fff;}
+  .qa-btn:hover{transform:translateY(-2px);}
+
+  /* ── TESTIMONIALS ── */
+  .testimonials{padding:90px 20px;background:var(--charcoal);}
+  .test-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px;max-width:1000px;margin:0 auto;}
+  .test-card{background:var(--smoke);border-radius:20px;padding:28px;border:1px solid rgba(255,255,255,0.05);transition:border-color 0.3s;}
+  .test-card:hover{border-color:rgba(232,58,20,0.3);}
+  .stars{color:var(--gold);font-size:0.95rem;margin-bottom:14px;}
+  .test-card p{color:rgba(240,230,210,0.6);font-size:0.88rem;line-height:1.8;font-style:italic;margin-bottom:18px;}
+  .reviewer{display:flex;align-items:center;gap:10px;}
+  .rev-avatar{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--fire),var(--gold));display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;}
+  .rev-name{font-weight:700;font-size:0.88rem;}
+  .rev-loc{font-size:0.72rem;color:rgba(240,230,210,0.4);}
+
+  /* ── FOOTER ── */
+  footer{background:var(--charcoal);padding:56px 20px 100px;border-top:1px solid rgba(255,255,255,0.05);}
+  .footer-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr;gap:40px;margin-bottom:36px;}
+  .footer-brand .logo{font-family:'Cormorant Garamond',serif;font-size:1.9rem;font-weight:700;background:linear-gradient(135deg,var(--fire),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:10px;}
+  .footer-brand p{color:rgba(240,230,210,0.38);font-size:0.83rem;line-height:1.7;max-width:270px;}
+  footer h4{font-size:0.72rem;letter-spacing:3px;text-transform:uppercase;color:var(--flare);margin-bottom:14px;}
+  footer ul{list-style:none;}
+  footer ul li{margin-bottom:9px;}
+  footer ul li a{color:rgba(240,230,210,0.45);text-decoration:none;font-size:0.83rem;transition:color 0.2s;}
+  footer ul li a:hover{color:var(--flare);}
+  .footer-bottom{border-top:1px solid rgba(255,255,255,0.05);padding-top:22px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;max-width:1100px;margin:0 auto;}
+  .footer-bottom p{color:rgba(240,230,210,0.28);font-size:0.78rem;}
+
+  /* RESPONSIVE */
+  @media(max-width:768px){
+    nav{padding:14px 18px;}
+    .nav-links{display:none;}
+    .about-inner,.contact-inner,.footer-inner{grid-template-columns:1fr;}
+    .gallery-mosaic{grid-template-columns:repeat(2,1fr);}
+    .gal-item.big{grid-column:span 2;grid-row:span 1;}
+    .gal-item.big img{min-height:220px;}
+    .form-row{grid-template-columns:1fr;}
+    .form-full{grid-column:span 1;}
+    .res-form{padding:28px 20px;}
+    .quick-actions{display:flex;}
+    footer{padding-bottom:110px;}
+  }
+  @media(min-width:769px){.quick-actions{display:none!important;}}
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav id="navbar">
+  <div class="nav-logo">Fire & Flare</div>
+  <div class="nav-right">
+    <div class="nav-links">
+      <a href="#menu-section">Menu</a>
+      <a href="#reservation">Reserve</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <span id="status-badge">⏳ Checking...</span>
+    <a href="#reservation" class="nav-cta">Book a Table</a>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-label">☕ Cafe & Lounge · Jaunpur</div>
+    <h1><span class="fire">Fire</span><span class="amp"> & </span><span style="color:#fff;">Flare</span></h1>
+    <div class="hero-sub">Where flavour meets fire · Jaycess Chauraha, Jaunpur</div>
+    <div class="hero-btns">
+      <button class="btn-fire" onclick="document.getElementById('menu-section').scrollIntoView({behavior:'smooth'})">Explore Menu</button>
+      <button class="btn-ghost" onclick="document.getElementById('reservation').scrollIntoView({behavior:'smooth'})">Book a Table</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── VIBE STRIP ── -->
+<div class="vibe-strip">
+  <div class="vibe-text">🔥 Chicken Lollipop &nbsp;·&nbsp; ☕ Hot Coffee ₹40 &nbsp;·&nbsp; 🍫 Chocolate Shake &nbsp;·&nbsp; 🍜 Manchurian Noodles &nbsp;·&nbsp; 🧆 Paneer Tikka &nbsp;·&nbsp; 🍕 Pizzas &nbsp;·&nbsp; 🥤 Mocktails &nbsp;·&nbsp; ⭐ 4.1 Rating · 3600+ Reviews &nbsp;·&nbsp; 🔥 Chicken Lollipop &nbsp;·&nbsp; ☕ Hot Coffee ₹40</div>
+</div>
+
+<!-- ── INTERACTIVE MENU ── -->
+<section class="menu-section" id="menu-section">
+  <div class="sec-head">
+    <span class="tag">What We Serve</span>
+    <h2>Our Menu</h2>
+    <div class="divider-fire"></div>
+    <p>Avg cost ₹200 per order · Fresh, customizable, quality food</p>
+  </div>
+
+  <div class="menu-cats">
+    <div class="mcat active" onclick="showCat('all',this)">All</div>
+    <div class="mcat" onclick="showCat('brews',this)">☕ Hot Brews</div>
+    <div class="mcat" onclick="showCat('shakes',this)">🥤 Shakes & Coolers</div>
+    <div class="mcat" onclick="showCat('starters',this)">🍗 Starters</div>
+    <div class="mcat" onclick="showCat('chinese',this)">🍜 Chinese</div>
+    <div class="mcat" onclick="showCat('snacks',this)">🥪 Snacks</div>
+    <div class="mcat" onclick="showCat('mains',this)">🍛 Main Course</div>
+    <div class="mcat" onclick="showCat('pizzas',this)">🍕 Pizzas</div>
+    <div class="mcat" onclick="showCat('desserts',this)">🍰 Desserts</div>
+  </div>
+
+  <div class="menu-body">
+
+    <!-- HOT BREWS -->
+    <div class="menu-group active" id="cat-brews">
+      <div class="menu-group-title">☕ Hot Brews</div>
+      <div class="menu-items">
+        <div class="mi"><div class="mi-left"><div class="mi-name">Hot Coffee <span class="badge-tag tag-popular">🔥 Popular</span></div><div class="mi-desc">Rich, freshly brewed hot coffee</div></div><div class="mi-price">₹40</div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Cappuccino <span class="badge-tag tag-veg">🌱 Veg</span></div><div class="mi-desc">Espresso with steamed milk foam</div></div><div class="mi-price">₹80</div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Latte <span class="badge-tag tag-veg">🌱 Veg</span></div><div class="mi-desc">Smooth espresso with creamy milk</div></div><div class="mi-price">₹90</div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Masala Chai <span class="badge-tag tag-veg">🌱 Veg</span></div><div class="mi-desc">Spiced Indian tea with ginger & cardamom</div></div><div class="mi-price">₹30</div></div>
+      </div>
+    </div>
+
+    <!-- SHAKES & COOLERS -->
+    <div class="menu-group active" id="cat-shakes">
+      <div class="menu-group-title">🥤 Shakes & Coolers</div>
+      <div class="menu-items">
+        <div class="mi"><div class="mi-left"><div class="mi-name">Chocolate Shake <span class="badge-tag tag-popular">⭐ Best Seller</span></div><div class="mi-desc">Thick, creamy chocolate milkshake</div></div><div class="mi-price">₹120</div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Strawberry Shake <span class="badge-tag tag-veg">🌱 Veg</span></div><div class="mi-desc">Fresh strawberry blended with milk</div></div><div class="mi-price">₹120</div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Mango Shake <span class="badge-tag tag-vegan">🌿 Vegan</span></div><div class="mi-desc">Alphonso mango blended smooth</div></div><div class="mi-price">₹130</div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Cold Coffee <span class="badge-tag tag-popular">🔥 Popular</span></div><div class="mi-desc">Iced blended coffee with milk</div></div><div class="mi-price">₹110</div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Fresh Lime Soda <span class="badge-tag tag-vegan">🌿 Vegan</span></div><div class="mi-desc">Sweet or salted lime soda</div></div><div class="mi-price">₹60</div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Blue Lagoon Mocktail <span class="badge-tag tag-chef">🔥 Chef's Special</span></div><div class="mi-desc">Blue curacao, lime, soda & lychee</div></div><div class="mi-price">₹150</div></div>
+      </div>
+    </div>
+
+    <!-- STARTERS -->
+    <div class="menu-group active" id="cat-starters">
+      <div class="menu-group-title">🍗 Starters</div>
+      <div class="menu-items">
+        <div class="mi"><div class="mi-left"><div class="mi-name">Chicken Lollipop <span class="badge-tag tag-chef">🔥 Chef's Special</span></div><div class="mi-desc">Crispy, spiced chicken lollipop — house favourite</div></div><div class="mi-price">₹279</div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Paneer Tikka <span class="badge-tag tag-veg">🌱 Veg</span> <span class="badge-tag tag-popular">⭐ Popular</span></div><div class="mi-desc">Tandoor-grilled cottage cheese with peppers & spices</div></div><div class="mi-price">₹220</div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Chicken Tikka <span class="badge-tag tag-spicy">🌶️ Spicy</span></div><div class="mi-desc">Marinated chicken grilled in tandoor</div></div><div class="mi-price">₹259</div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Veg Crispy <span class="badge-tag tag-veg">🌱 Veg</span></div><div class="mi-desc">Crispy fried vegetables in a tangy sauce</div></div><div class="mi-price">₹160</div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Chicken Chilli <span class="badge-tag tag-spicy">🌶️ Spicy</span></div><div class="mi-desc">Indo-Chinese chilli chicken, dry or gravy</div></div><div class="mi-price">₹230</div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Tangdi Kabab <span class="badge-tag tag-chef">🔥 Chef's Special</span></div><div class="mi-desc">Drumstick marinated in spices & grilled to perfection</div></div><div class="mi-price">₹280</div></div>
+      </div>
+    </div>
+
+    <!-- CHINESE -->
+    <div class="menu-group active" id="cat-chinese">
+      <div class="menu-group-title">🍜 Chinese</div>
+      <div class="menu-items">
+        <div class="mi"><div class="mi-left"><div class="mi-name">Manchurian Noodles <span class="badge-tag tag-popular">⭐ Popular</span></div><div class="mi-desc">Stir-fried noodles with manchurian balls</div></div><div class="mi-price">₹160</div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Veg Fried Rice <span class="badge-tag tag-veg">🌱 Veg</span></div><div class="mi-desc">Wok-tossed rice with fresh vegetables</div></div><div class="mi-price">₹130</div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Chicken Fried Rice <span class="badge-tag tag-popular">🔥 Popular</span></div><div class="mi-desc">Wok-tossed rice with egg & chicken</div></div><div class="mi-price">₹180</div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Veg Hakka Noodles <span class="badge-tag tag-veg">🌱 Veg</span></div><div class="mi-desc">Classic stir-fried hakka noodles</div></div><div class="mi-price">₹130</div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Chicken Manchurian <span class="badge-tag tag-chef">🔥 Chef's Special</span></div><div class="mi-desc">Crispy chicken in manchurian gravy</div></div><div class="mi-price">₹220</div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Veg Manchurian Dry <span class="badge-tag tag-veg">🌱 Veg</span></div><div class="mi-desc">Crispy veggie balls tossed in sauces</div></div><div class="mi-price">₹150</div></div>
+      </div>
+    </div>
+
+    <!-- SNACKS -->
+    <div class="menu-group active" id="cat-snacks">
+      <div class="menu-group-title">🥪 Snacks & Fast Food</div>
+      <div class="menu-items">
+        <div class="mi"><div class="mi-left"><div class="mi-name">Veg Burger <span class="badge-tag tag-veg">🌱 Veg</span></div><div class="mi-desc">Crispy patty, fresh veggies, special sauce</div></div><div class="mi-price">₹80</div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Chicken Burger <span class="badge-tag tag-popular">⭐ Popular</span></div><div class="mi-desc">Grilled chicken fillet with coleslaw & cheese</div></div><div class="mi-price">₹130</div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">French Fries <span class="badge-tag tag-vegan">🌿 Vegan</span></div><div class="mi-desc">Crispy golden fries with dip</div></div><div class="mi-price">₹90</div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Veg Sandwich <span class="badge-tag tag-veg">🌱 Veg</span></div><div class="mi-desc">Grilled sandwich with fresh veggies & cheese</div></div><div class="mi-price">₹90</div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Club Sandwich <span class="badge-tag tag-chef">🔥 Chef's Special</span></div><div class="mi-desc">Triple-decker chicken club with fries</div></div><div class="mi-price">₹160</div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Peri Peri Fries <span class="badge-tag tag-spicy">🌶️ Spicy</span></div><div class="mi-desc">Loaded fries with peri peri seasoning & cheese</div></div><div class="mi-price">₹110</div></div>
+      </div>
+    </div>
+
+    <!-- MAINS -->
+    <div class="menu-group active" id="cat-mains">
+      <div class="menu-group-title">🍛 Main Course</div>
+      <div class="menu-items">
+        <div class="mi"><div class="mi-left"><div class="mi-name">Butter Chicken <span class="badge-tag tag-chef">🔥 Chef's Special</span></div><div class="mi-desc">Creamy tomato curry with tender chicken</div></div><div class="mi-price">₹260</div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Paneer Butter Masala <span class="badge-tag tag-veg">🌱 Veg</span> <span class="badge-tag tag-popular">⭐ Popular</span></div><div class="mi-desc">Rich paneer in buttery tomato gravy</div></div><div class="mi-price">₹220</div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Dal Tadka <span class="badge-tag tag-vegan">🌿 Vegan</span></div><div class="mi-desc">Yellow lentils tempered with cumin & ghee</div></div><div class="mi-price">₹150</div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Chicken Biryani <span class="badge-tag tag-popular">⭐ Popular</span></div><div class="mi-desc">Fragrant basmati rice with spiced chicken</div></div><div class="mi-price">₹220</div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Veg Biryani <span class="badge-tag tag-veg">🌱 Veg</span></div><div class="mi-desc">Aromatic basmati with fresh vegetables</div></div><div class="mi-price">₹170</div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Garlic Naan <span class="badge-tag tag-veg">🌱 Veg</span></div><div class="mi-desc">Soft tandoor bread with garlic butter</div></div><div class="mi-price">₹50</div></div>
+      </div>
+    </div>
+
+    <!-- PIZZAS -->
+    <div class="menu-group active" id="cat-pizzas">
+      <div class="menu-group-title">🍕 Pizzas</div>
+      <div class="menu-items">
+        <div class="mi"><div class="mi-left"><div class="mi-name">Margherita <span class="badge-tag tag-veg">🌱 Veg</span></div><div class="mi-desc">Classic tomato sauce, fresh mozzarella & basil</div></div><div class="mi-price">₹180</div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Paneer Tikka Pizza <span class="badge-tag tag-chef">🔥 Chef's Special</span></div><div class="mi-desc">Tandoori paneer, peppers & onions on pizza</div></div><div class="mi-price">₹230</div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Chicken Tikka Pizza <span class="badge-tag tag-popular">⭐ Popular</span></div><div class="mi-desc">Spiced chicken tikka with cheese</div></div><div class="mi-price">₹260</div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">BBQ Chicken Pizza <span class="badge-tag tag-popular">⭐ Popular</span></div><div class="mi-desc">BBQ sauce, grilled chicken & onions</div></div><div class="mi-price">₹270</div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Cheese Burst Pizza <span class="badge-tag tag-chef">🔥 Chef's Special</span></div><div class="mi-desc">Extra cheese-stuffed crust with your choice of topping</div></div><div class="mi-price">₹300</div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Farm House Veg <span class="badge-tag tag-veg">🌱 Veg</span></div><div class="mi-desc">Capsicum, mushroom, onion, corn & olives</div></div><div class="mi-price">₹210</div></div>
+      </div>
+    </div>
+
+    <!-- DESSERTS -->
+    <div class="menu-group active" id="cat-desserts">
+      <div class="menu-group-title">🍰 Desserts</div>
+      <div class="menu-items">
+        <div class="mi"><div class="mi-left"><div class="mi-name">Choco Lava Cake <span class="badge-tag tag-chef">🔥 Chef's Special</span></div><div class="mi-desc">Warm chocolate cake with molten lava centre</div></div><div class="mi-price">₹160</div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Brownie with Ice Cream <span class="badge-tag tag-popular">⭐ Popular</span></div><div class="mi-desc">Warm fudge brownie topped with vanilla ice cream</div></div><div class="mi-price">₹150</div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Gulab Jamun <span class="badge-tag tag-veg">🌱 Veg</span></div><div class="mi-desc">Soft milk dumplings in rose sugar syrup</div></div><div class="mi-price">₹80</div></div>
+        <div class="mi"><div class="mi-left"><div class="mi-name">Waffles <span class="badge-tag tag-veg">🌱 Veg</span></div><div class="mi-desc">Belgian waffles with chocolate sauce & ice cream</div></div><div class="mi-price">₹170</div></div>
+      </div>
+    </div>
+
+  </div><!-- /menu-body -->
+</section>
+
+<!-- ── TABLE RESERVATION ── -->
+<section class="reservation" id="reservation">
+  <div class="sec-head">
+    <span class="tag">Book a Table</span>
+    <h2>Reserve Your Spot</h2>
+    <div class="divider-fire"></div>
+    <p>Fill in your details and we'll hold your table</p>
+  </div>
+  <div class="res-inner">
+    <div class="res-form">
+      <div id="res-success">🎉 Table booked! We'll confirm via WhatsApp soon.</div>
+      <div class="form-row">
+        <div class="form-group"><label>Your Name</label><input type="text" id="f-name" placeholder="e.g. Rahul Sharma"/></div>
+        <div class="form-group"><label>Phone Number</label><input type="tel" id="f-phone" placeholder="+91 XXXXX XXXXX"/></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Date</label><input type="date" id="f-date"/></div>
+        <div class="form-group"><label>Time</label><input type="time" id="f-time" min="10:00" max="22:30"/></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Number of Guests</label>
+          <select id="f-guests">
+            <option value="">Select guests</option>
+            <option>1 Person</option><option>2 People</option><option>3 People</option>
+            <option>4 People</option><option>5 People</option><option>6+ People</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Occasion (optional)</label>
+          <select id="f-occ">
+            <option value="">Select occasion</option>
+            <option>Birthday 🎂</option><option>Anniversary 💑</option>
+            <option>Date Night 💖</option><option>Friends Outing 👥</option><option>Business Meeting 💼</option><option>Other</option>
+          </select>
+        </div>
+      </div>
+      <button class="res-submit" onclick="submitReservation()">🔥 Confirm Reservation</button>
+    </div>
+  </div>
+</section>
+
+<!-- ── GALLERY ── -->
+<section class="gallery" id="gallery">
+  <div class="sec-head">
+    <span class="tag">Visual Feast</span>
+    <h2>Gallery</h2>
+    <div class="divider-fire"></div>
+    <p>A glimpse into the Fire & Flare experience</p>
+  </div>
+  <div class="gallery-mosaic">
+    <div class="gal-item big"><img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=800&auto=format&fit=crop" alt="Cafe ambience"/></div>
+    <div class="gal-item"><img src="https://images.unsplash.com/photo-1521017432531-fbd92d768814?w=600&auto=format&fit=crop" alt="Coffee"/></div>
+    <div class="gal-item"><img src="https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=600&auto=format&fit=crop" alt="Food"/></div>
+    <div class="gal-item"><img src="https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=600&auto=format&fit=crop" alt="Coffee art"/></div>
+    <div class="gal-item"><img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&auto=format&fit=crop" alt="Interior"/></div>
+  </div>
+</section>
+
+<!-- ── ABOUT ── -->
+<section class="about" id="about">
+  <div class="about-inner">
+    <div class="about-imgs">
+      <img src="https://images.unsplash.com/photo-1600093463592-8e36ae95ef56?w=800&auto=format&fit=crop" alt="Cafe interior"/>
+      <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&auto=format&fit=crop" alt="Coffee"/>
+      <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&auto=format&fit=crop" alt="Food"/>
+    </div>
+    <div class="about-text">
+      <span class="tag2">Our Story</span>
+      <h2>A Cafe That <em>Ignites</em> Your Senses</h2>
+      <p>Nestled on the 2nd floor of Sambhav Palace, Fire & Flare Cafe & Lounge is Jaunpur's most vibrant dining destination — known for good WiFi, elaborate menu, customizable food, fresh food, and great quality.</p>
+      <p>With over 3,600 reviews and a 4.1★ rating on Zomato, we've become the go-to spot at Jaycess Chauraha for food lovers across Jaunpur.</p>
+      <div class="about-stats">
+        <div class="stat"><div class="num">4.1★</div><div class="lbl">Zomato Rating</div></div>
+        <div class="stat"><div class="num">3600+</div><div class="lbl">Reviews</div></div>
+        <div class="stat"><div class="num">₹200</div><div class="lbl">Avg per Order</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TESTIMONIALS ── -->
+<section class="testimonials">
+  <div class="sec-head">
+    <span class="tag">Guest Love</span>
+    <h2>What People Say</h2>
+    <div class="divider-fire"></div>
+  </div>
+  <div class="test-grid">
+    <div class="test-card"><div class="stars">★★★★★</div><p>"Best cafe in Jaunpur! The chicken lollipop is absolutely outstanding and the ambience on the 2nd floor is stunning. Our go-to weekend spot!"</p><div class="reviewer"><div class="rev-avatar">R</div><div><div class="rev-name">Rahul S.</div><div class="rev-loc">Jaunpur, UP · Zomato</div></div></div></div>
+    <div class="test-card"><div class="stars">★★★★★</div><p>"Loved the mocktails and the paneer tikka pizza. This place is known for good wifi, elaborate menu, customizable food. Highly recommended!"</p><div class="reviewer"><div class="rev-avatar">P</div><div><div class="rev-name">Priya M.</div><div class="rev-loc">Jaunpur, UP · Zomato</div></div></div></div>
+    <div class="test-card"><div class="stars">★★★★★</div><p>"Great food, great vibes. The choco lava cake is a must-try! Fire & Flare truly lives up to its name. Will be back again and again!"</p><div class="reviewer"><div class="rev-avatar">A</div><div><div class="rev-name">Aditya K.</div><div class="rev-loc">Jaunpur, UP · Zomato</div></div></div></div>
+  </div>
+</section>
+
+<!-- ── CONTACT & MAP ── -->
+<section class="contact" id="contact">
+  <div class="contact-inner">
+    <div class="contact-info">
+      <span class="tag2">Find Us</span>
+      <h2>Visit Fire & Flare</h2>
+      <div class="info-item"><div class="info-icon">📍</div><div><h4>Address</h4><p>2nd Floor, Sambhav Palace,<br>Jaycess Chauraha, Near Vijaylakshmi Hospital,<br>Jaunpur, Uttar Pradesh – 222002</p></div></div>
+      <div class="info-item"><div class="info-icon">📞</div><div><h4>Call / WhatsApp</h4><p><a href="tel:+918874943775">+91 88749 43775</a></p></div></div>
+      <div class="info-item"><div class="info-icon">🕐</div><div><h4>Hours</h4><p>Monday – Sunday: 10:00 AM – 11:00 PM</p></div></div>
+      <div class="info-item"><div class="info-icon">📱</div><div><h4>Follow Us</h4><p><a href="https://www.instagram.com/fireandflarecafe" target="_blank">@fireandflarecafe on Instagram</a></p></div></div>
+    </div>
+
+    <!-- MAP CONTAINER -->
+    <div class="map-container">
+      <!-- ═══════════════════════════════════════════════════════════
+           👇 PASTE YOUR GOOGLE MAPS <iframe> EMBED CODE HERE
+           Steps:
+           1. Go to maps.google.com and search "Fire and Flare Jaunpur"
+           2. Click Share → Embed a map
+           3. Copy the <iframe ...></iframe> code
+           4. DELETE the .map-placeholder div below
+           5. PASTE your <iframe> code here instead
+      ════════════════════════════════════════════════════════════════ -->
+      <div class="map-placeholder">
+        <div class="map-icon">🗺️</div>
+        <h4>Map Coming Soon</h4>
+        <p>Paste your Google Maps embed code here</p>
+        <code>&lt;!-- Your iframe goes here --&gt;</code>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand"><div class="logo">Fire & Flare</div><p>Jaunpur's most vibrant cafe & lounge — 2nd Floor, Sambhav Palace, Jaycess Chauraha. Known for great food, good WiFi & warm vibes.</p></div>
+    <div><h4>Quick Links</h4><ul><li><a href="#menu-section">Our Menu</a></li><li><a href="#reservation">Book a Table</a></li><li><a href="#gallery">Gallery</a></li><li><a href="#about">About Us</a></li><li><a href="#contact">Contact</a></li></ul></div>
+    <div><h4>Visit Us</h4><ul><li><a href="#">2nd Floor, Sambhav Palace</a></li><li><a href="#">Jaycess Chauraha</a></li><li><a href="#">Near Vijaylakshmi Hospital</a></li><li><a href="#">Jaunpur – 222002, UP</a></li><li><a href="tel:+918874943775">+91 88749 43775</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><p>© 2026 Fire & Flare Cafe & Lounge. All rights reserved.</p><p>Made with 🔥 in Jaunpur</p></div>
+</footer>
+
+<!-- ── MOBILE QUICK ACTION BUTTONS ── -->
+<div class="quick-actions" id="quick-actions">
+  <a href="tel:+918874943775" class="qa-btn qa-call">📞 Click to Call</a>
+  <a href="https://wa.me/918874943775?text=Hi%20Fire%20%26%20Flare!%20I%20want%20to%20book%20a%20table." target="_blank" class="qa-btn qa-wa">💬 WhatsApp Us</a>
+</div>
+
+<script>
+// ── OPEN/CLOSED BADGE ──
+function updateStatus(){
+  const now = new Date();
+  const h = now.getHours(), m = now.getMinutes();
+  const mins = h*60+m;
+  const badge = document.getElementById('status-badge');
+  if(mins >= 600 && mins < 1260){ // 10:00 AM to 9:00 PM
+    badge.textContent = '🟢 Open Now';
+    badge.className = 'open';
+  } else {
+    badge.textContent = '🔴 Closed · Opens 10 AM';
+    badge.className = 'closed';
+  }
+}
+updateStatus();
+setInterval(updateStatus, 60000);
+
+// ── NAV SCROLL ──
+window.addEventListener('scroll',()=>{
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+});
+
+// ── MENU CATEGORY FILTER ──
+function showCat(cat, el){
+  document.querySelectorAll('.mcat').forEach(e=>e.classList.remove('active'));
+  el.classList.add('active');
+  if(cat === 'all'){
+    document.querySelectorAll('.menu-group').forEach(g=>{g.classList.add('active');g.style.display='block';});
+  } else {
+    document.querySelectorAll('.menu-group').forEach(g=>{
+      const show = g.id === 'cat-'+cat;
+      g.style.display = show ? 'block' : 'none';
+      g.classList.toggle('active', show);
+    });
+  }
+}
+
+// ── RESERVATION FORM ──
+function submitReservation(){
+  const name = document.getElementById('f-name').value.trim();
+  const phone = document.getElementById('f-phone').value.trim();
+  const date = document.getElementById('f-date').value;
+  const time = document.getElementById('f-time').value;
+  const guests = document.getElementById('f-guests').value;
+  if(!name||!phone||!date||!time||!guests){
+    alert('Please fill in all required fields.');
+    return;
+  }
+  // Send via WhatsApp
+  const msg = `🔥 New Table Reservation!\n\nName: ${name}\nPhone: ${phone}\nDate: ${date}\nTime: ${time}\nGuests: ${guests}\nOccasion: ${document.getElementById('f-occ').value||'Not specified'}`;
+  const waUrl = `https://wa.me/918874943775?text=${encodeURIComponent(msg)}`;
+  window.open(waUrl, '_blank');
+  document.getElementById('res-success').style.display = 'block';
+  document.querySelector('.res-form').querySelectorAll('input,select').forEach(el=>el.value='');
+  setTimeout(()=>document.getElementById('res-success').style.display='none', 5000);
+}
+
+// ── SET MIN DATE FOR RESERVATION ──
+const today = new Date().toISOString().split('T')[0];
+document.getElementById('f-date').min = today;
+</script>
+</body>
+</html>
