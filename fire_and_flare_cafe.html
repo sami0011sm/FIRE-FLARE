@@ -465,20 +465,15 @@
     <!-- MAP CONTAINER -->
     <div class="map-container">
       <!-- ═══════════════════════════════════════════════════════════
-           👇 PASTE YOUR GOOGLE MAPS <iframe> EMBED CODE HERE
-           Steps:
-           1. Go to maps.google.com and search "Fire and Flare Jaunpur"
-           2. Click Share → Embed a map
-           3. Copy the <iframe ...></iframe> code
-           4. DELETE the .map-placeholder div below
-           5. PASTE your <iframe> code here instead
+           ✅ GOOGLE MAPS EMBED — Sambhav Palace, Jaycess Chauraha,
+           Near Vijaylakshmi Hospital, Jaunpur, UP – 222002
       ════════════════════════════════════════════════════════════════ -->
-      <div class="map-placeholder">
-        <div class="map-icon">🗺️</div>
-        <h4>Map Coming Soon</h4>
-        <p>Paste your Google Maps embed code here</p>
-        <code>&lt;!-- Your iframe goes here --&gt;</code>
-      </div>
+      <iframe
+        src="https://www.google.com/maps?q=Sambhav%20Palace%2C%20Jaycess%20Chauraha%2C%20Near%20Vijaylakshmi%20Hospital%2C%20Jaunpur%2C%20Uttar%20Pradesh%20222002&output=embed"
+        width="100%" height="360" style="border:0;display:block;min-height:360px;"
+        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+        title="Fire & Flare Cafe Location">
+      </iframe>
     </div>
 
   </div>
@@ -545,14 +540,24 @@ function submitReservation(){
   const date = document.getElementById('f-date').value;
   const time = document.getElementById('f-time').value;
   const guests = document.getElementById('f-guests').value;
+  const occasion = document.getElementById('f-occ').value || 'Not specified';
   if(!name||!phone||!date||!time||!guests){
     alert('Please fill in all required fields.');
     return;
   }
-  // Send via WhatsApp
-  const msg = `🔥 New Table Reservation!\n\nName: ${name}\nPhone: ${phone}\nDate: ${date}\nTime: ${time}\nGuests: ${guests}\nOccasion: ${document.getElementById('f-occ').value||'Not specified'}`;
-  const waUrl = `https://wa.me/918874943775?text=${encodeURIComponent(msg)}`;
+  // Build pre-filled WhatsApp message with all booking details
+  const message =
+    "New Table Booking Request:\n" +
+    "Name: " + name + "\n" +
+    "Phone: " + phone + "\n" +
+    "Date: " + date + "\n" +
+    "Time: " + time + "\n" +
+    "Guests: " + guests + "\n" +
+    "Occasion: " + occasion;
+
+  const waUrl = "https://wa.me/918874943775?text=" + encodeURIComponent(message);
   window.open(waUrl, '_blank');
+
   document.getElementById('res-success').style.display = 'block';
   document.querySelector('.res-form').querySelectorAll('input,select').forEach(el=>el.value='');
   setTimeout(()=>document.getElementById('res-success').style.display='none', 5000);
